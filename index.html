@@ -239,6 +239,139 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/29/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写BUG小能手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/06/29/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/" itemprop="url">布隆过滤器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-29T23:41:28+08:00">
+                2021-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="是啥？"><a href="#是啥？" class="headerlink" title="是啥？"></a>是啥？</h3><p>布隆过滤器是一个特殊的数据结构，可用于解决缓存穿透的问题。</p>
+<p>布隆过滤器本质是一个<strong>位数组</strong>，每个元素大小都是1bit，只能存放0和1。这个数组的初始元素都是0。</p>
+<h3 id="运作原理"><a href="#运作原理" class="headerlink" title="运作原理"></a>运作原理</h3><p>为了方便理解，这里先讲往布隆过滤器中添加内容，然后再讲查找。</p>
+<p>向布隆过滤器添加内容时，会先把内容做K次不同哈希算法计算，获取K个数字。然后根据这些数字，在位数组的相应位置置1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">假设位数组是arr。</span><br><span class="line"></span><br><span class="line">现在要添加的内容是：&quot;hello&quot;。这个字符串经过3次哈希之后，得出的数字是1，3，5。那么，arr[1] arr[3] 和 arr[5]都会置为1。</span><br></pre></td></tr></table></figure>
+
+
+<p>在布隆过滤器查找内容时，也会把内容做K次哈希运算，跟添加内容一样，算出该内容在位数组的相应位置。如果这些位置的值有一个不为1，则该内容肯定不存在。如果这些位置的值都为1，那么该内容可能存在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">现在要查找的内容是：&quot;hello1&quot;，这个字符串经过3次哈希之后，得出的数字是1，3，6。然后查看arr[1] arr[3] 和 arr[6]的值，发现arr[6]不是1，那就证明&quot;hello1&quot;不存在。</span><br></pre></td></tr></table></figure>
+<p>为什么说位数组相应位置的值都为1时，内容可能存在？因为有可能在其他内容插入时，把某些位置置为1，而对于一个不存在于布隆过滤器的内容，经过哈希之后，可能计算出来的所有位置都跟其他内容的重合了，导致误判。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在数组中添加了两条内容：&quot;hello&quot;和&quot;world&quot;。假如这两个字符串在3次哈希计算后，得出的数字分别是：1，3，5和4，6，7。</span><br><span class="line">查找的内容是&quot;abc&quot;，假设该内容通过哈希计算后，得出的数字是1，4，7。现在arr[1] arr[4] 和 arr[7]的值都是1，那现在就判定&quot;abc&quot;存在于布隆过滤器，这就是误判的情况。</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>布隆过滤器运作原理整理完毕。实际开发中，最常见的就是redis的布隆过滤器，但是结合上述描述，可以看到，布隆过滤器存在误判的情况，这个在实际业务中需要考虑误判率是否可以接受。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/05/SpringBoot%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E6%88%90war%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0%E5%A4%96%E7%BD%AETomcat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -790,7 +923,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
