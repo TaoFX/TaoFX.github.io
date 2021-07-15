@@ -239,6 +239,258 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/15/%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写BUG小能手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/07/15/%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E7%90%86%E8%A7%A3/" itemprop="url">线程和协程的理解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-15T23:42:47+08:00">
+                2021-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="协程概念"><a href="#协程概念" class="headerlink" title="协程概念"></a>协程概念</h3><p>协程（纤程）也是一种线程，属于轻量级线程，由程序在用户空间创建和管理的线程。</p>
+<p>什么是轻量级线程？还有重量级的？</p>
+<p>有！！</p>
+<p>重量级和轻量级，一个在内核空间，属于操作系统中真正的线程（后面称<em>线程</em>），由操作系统调度；另一个则在用户空间，用户可以管理。</p>
+<h3 id="协程和线程的对应关系"><a href="#协程和线程的对应关系" class="headerlink" title="协程和线程的对应关系"></a>协程和<em>线程</em>的对应关系</h3><p>假如一个程序开了多个<em>线程</em>干活，那么系统就会开多个<em>线程</em>与程序的线程一一对应，并且在调度<em>线程</em>的时候，需要进行线程切换，这个是需要消耗cpu资源的。</p>
+<p>假如用的是多个协程，系统中可能只开一个<em>线程</em>与多个协程对应，这时，协程可以也可以并行处理任务，而且<em>线程</em>的切换少了，cpu资源消耗也少了。</p>
+<p>那是不是协程就比<em>线程</em>好呢？</p>
+<p>不是，这个得看情况。时间有点晚，后面继续补充。。。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/15/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="写BUG小能手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/07/15/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/" itemprop="url">进程和线程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-15T23:13:55+08:00">
+                2021-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程就是操作系统分配资源的基本单位，也就是给一个程序分配一系列资源。</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>线程是操作系统执行的基本单位。</p>
+<h3 id="进程和线程关系？"><a href="#进程和线程关系？" class="headerlink" title="进程和线程关系？"></a>进程和线程关系？</h3><p>线程是进程中可并行执行的多个分支。</p>
+<p>可见，多条线程一起工作，效率会比单线程高。但是如果线程数太多，其效率不一定比线程数烧的时候高，因为其中涉及到线程切换。</p>
+<h3 id="线程切换"><a href="#线程切换" class="headerlink" title="线程切换"></a>线程切换</h3><p>线程切换具体是这样的：程序计数器记录下当前线程执行的位置，然后把位置信息写入寄存器，再由寄存器放到缓存或内存中，然后执行另外的线程。执行完另外的线程后，再读取刚刚记录的位置，继续执行。</p>
+<p>线程切换要用到程序计数器，寄存器之类的，是需要消耗cpu资源的，如果线程过多，则cpu的资源可能大部分都被用来切换线程了，这就降低了cpu的效率。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/06/29/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -923,7 +1175,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -936,7 +1188,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
