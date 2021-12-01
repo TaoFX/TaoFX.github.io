@@ -87,7 +87,7 @@
 <meta property="og:description" content="本文说的MySql索引，都是用InnoDB引擎。 InnoDB有两大类索引：聚集索引和普通索引 聚集索引：聚集索引的叶子节点存储行记录，因此，InnoDB必须要有且只有一个聚集索引。表定义了主键，那么主键就是聚集索引。因为聚集索引可以直接定位到行，所以用主键搜索很快。 普通索引：普通索引的叶子节点存储数据对应的主键，使用索引列的值做索引key 说到这两种索引，就不得不说回表的事。 回表回表就是一次">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-08-10T04:23:08.000Z">
-<meta property="article:modified_time" content="2021-10-19T13:12:52.807Z">
+<meta property="article:modified_time" content="2021-12-01T03:45:48.619Z">
 <meta property="article:author" content="xuetaofeng">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -327,7 +327,8 @@
 <p>因为查询条件往往比查出来的字段要少，这样一般是不会触发索引覆盖的。</p>
 <p>就算查询条件等于查出来的字段，但是只用到了其中几个查询条件，这个时候，也是不会触发索引覆盖的。</p>
 <p>那么有没办法解决呢？有，我觉得可以换个思考方向，可以先用条件查出符合的数据的主键id，然后通过id连表查数据。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> l.<span class="operator">*</span> <span class="keyword">from</span> t_log l</span><br><span class="line"><span class="comment">-- 该子查询的where字段都有索引，该子查询命中了索引。因为普通索引有记录主键id，所以select id属于索引里的字段，所以触发了索引覆盖，不用回表。所以子查询很快找出了符合的数据</span></span><br><span class="line"><span class="keyword">join</span>(</span><br><span class="line">	<span class="keyword">select</span> id <span class="keyword">from</span> t_log <span class="comment">-- 查询</span></span><br><span class="line">	<span class="keyword">where</span> app_key <span class="operator">=</span> <span class="string">&#x27;10000001&#x27;</span></span><br><span class="line">	<span class="keyword">and</span> mobile <span class="operator">=</span> <span class="string">&#x27;18048018581&#x27;</span></span><br><span class="line">	limit <span class="number">5000000</span>, <span class="number">10</span></span><br><span class="line">) l1 <span class="keyword">on</span> l.id <span class="operator">=</span> l1.id</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> l.<span class="operator">*</span> <span class="keyword">from</span> t_log l</span><br><span class="line"><span class="comment">-- 该子查询的where字段都有索引，该子查询命中了索引。因为普通索引有记录主键id，所以select id属于索引里的字段，所以触发了索引覆盖，不用回表。所以子查询很快找出了符合的数据</span></span><br><span class="line"><span class="keyword">join</span>(</span><br><span class="line">	<span class="keyword">select</span> id <span class="keyword">from</span> t_log <span class="comment">-- 查询</span></span><br><span class="line">	<span class="keyword">where</span> app_key <span class="operator">=</span> <span class="string">&#x27;10000001&#x27;</span></span><br><span class="line">	<span class="keyword">and</span> mobile <span class="operator">=</span> <span class="string">&#x27;18048018581&#x27;</span></span><br><span class="line">	limit <span class="number">10000</span>, <span class="number">10</span></span><br><span class="line">) l1 <span class="keyword">on</span> l.id <span class="operator">=</span> l1.id</span><br></pre></td></tr></table></figure>
+<p>不过，如果数据太多，这种索引覆盖也没辙了。比如limit 1000000, 10，那么子查询就很慢了，10s都没出结果。这种情况就要优化了，具体是升级机器配置，还是分库分表就具体情况具体分析了。</p>
 
       
     </div>
