@@ -79,18 +79,26 @@
 
 
 
-<meta name="description" content="常用的微服务限流算法有以下4种：  固定窗口  滑动窗口  漏桶算法  令牌桶算法">
+<meta name="description" content="常用的微服务限流算法有以下4种：  固定窗口算法&#x2F;计数法 该算法简单地限制某个时间范围内的请求总数，请求一进来，只要在某个时间范围内，请求数&lt;&#x3D;请求总数，则放行，否则拦截。  假设时间范围为1分钟，每分钟限制最高100次请求，则在0分钟到1分钟内的请求不得超过100次，否则就会被限流。 这种方法实现起来最简单，但是会有边界问题导致限流失灵，请看下面这种情况。  如果在第一分钟前几秒和后几秒，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务限流算法">
 <meta property="og:url" content="http://example.com/2022/03/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="写BUG小能手">
-<meta property="og:description" content="常用的微服务限流算法有以下4种：  固定窗口  滑动窗口  漏桶算法  令牌桶算法">
+<meta property="og:description" content="常用的微服务限流算法有以下4种：  固定窗口算法&#x2F;计数法 该算法简单地限制某个时间范围内的请求总数，请求一进来，只要在某个时间范围内，请求数&lt;&#x3D;请求总数，则放行，否则拦截。  假设时间范围为1分钟，每分钟限制最高100次请求，则在0分钟到1分钟内的请求不得超过100次，否则就会被限流。 这种方法实现起来最简单，但是会有边界问题导致限流失灵，请看下面这种情况。  如果在第一分钟前几秒和后几秒，">
 <meta property="og:locale">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95%E7%BC%BA%E9%99%B7.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%952.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%94%B9.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95.png">
 <meta property="article:published_time" content="2022-03-04T09:04:53.000Z">
-<meta property="article:modified_time" content="2022-03-04T09:38:08.004Z">
+<meta property="article:modified_time" content="2022-08-02T10:06:55.648Z">
 <meta property="article:author" content="xuetaofeng">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95.png">
 
 
 
@@ -312,15 +320,40 @@
       
         <p>常用的微服务限流算法有以下4种：</p>
 <ol>
-<li><p>固定窗口</p>
+<li><p>固定窗口算法/计数法</p>
+<p>该算法简单地限制某个时间范围内的请求总数，请求一进来，只要在某个时间范围内，请求数&lt;=请求总数，则放行，否则拦截。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95.png"></p>
+<p>假设时间范围为1分钟，每分钟限制最高100次请求，则在0分钟到1分钟内的请求不得超过100次，否则就会被限流。</p>
+<p>这种方法实现起来最简单，但是会有边界问题导致限流失灵，请看下面这种情况。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95%E7%BC%BA%E9%99%B7.png"></p>
+<p>如果在第一分钟前几秒和后几秒，各请求100次，其他时间不请求。那么，现在两个1分钟内的请求数都没超过100，结果是请求都被放行了，但是，在这短短10秒不到的时间里，却请求了200次，远大于每分钟100次。</p>
+<p>对于解决这种边界问题，我们可以使用<strong>滑动窗口算法</strong>。</p>
 </li>
-<li><p>滑动窗口</p>
+<li><p>滑动窗口算法</p>
+<p>该算法跟<strong>固定窗口算法</strong>相似，同样是计算某个时间段内请求总数，请求一进来，只要在某个时间范围内，请求数&lt;=请求总数，则放行，否则拦截。</p>
+<p>不同的点在于，滑动窗口算法把时间范围划分成若干块小时间段。</p>
+<p>假设时间范围为1分钟，按15秒为一个小时间段，那么在前1分钟内的请求，会根据请求时间，落入4个小时间段内，且每次有请求进来，都会先算这1分钟内（红框内）的请求总数，再决定是否放行。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95.png"></p>
+<p>若<code>00:01:10</code>有一个新的请求，则红框往右移动一格，再计算红框内请求总数，再决定是否放行。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%952.png"></p>
+<p>假如在第一分钟前几秒和后几秒，各请求100次（绿框），其他时间没有请求，那么这个时候，红框内的请求总数超过了100次，就把多出的100次请求拦截掉了，解决了<strong>固定窗口算法</strong>的边界问题。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%AE%97%E6%B3%95%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98.png"></p>
 </li>
 <li><p>漏桶算法</p>
+<p>该算法由一个请求队列组成，请求来了，先判断请求队列是否有位置，有则入队，否则拦截请求。其中请求队列入队速度快慢不定，出队速度均匀。</p>
+<p>该算法主要是控制单位时间内的请求总量，无论单位时间内请求入队多少，都不影响出队速度，有削峰填谷的效果。个人认为这跟消息队列有异曲同工之妙，适合顺时高并发的场景，比如秒杀和0点签到。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E6%BC%8F%E6%A1%B6%E7%AE%97%E6%B3%95-%E4%BF%AE%E6%94%B9.png"></p>
+<p>假设请求队列的容量为100，每次有请求进来时，都先判断队列是否还有位置，有则请求入队，否则拦截请求。已经在队列中的请求，会以给定的速率被放行，比如一分钟放行n条。</p>
 </li>
 <li><p>令牌桶算法</p>
+<p>该算法由一个令牌队列（令牌桶）构成，且以均匀的速度生成令牌并放入令牌队列，入队前也是先检查是否有位置，有则令牌入队，否则丢弃令牌。</p>
+<p>请求过来的时候，先从令牌队列中获取令牌，获取成功则放行请求，否则拦截请求。</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202208/%E4%BB%A4%E7%89%8C%E6%A1%B6%E7%AE%97%E6%B3%95.png"></p>
+<p>令牌桶和漏桶算法很相似，其中的区别可以看这篇文章：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/841709">https://cloud.tencent.com/developer/news/841709</a></p>
 </li>
 </ol>
+<p>以上四种就是常见的限流算法，不过这些算法都是单机版，如果想要在分布式系统中使用，就需要把一些信息存到中间件中或者使用分布式限流中间件。</p>
+<p>要存入中间件的信息如，令牌桶算法的存放令牌的队列，就要存到中间件中。分布式限流中间件如<a target="_blank" rel="noopener" href="https://github.com/alibaba/Sentinel/wiki/%E4%BB%8B%E7%BB%8D">Sentinel</a>。</p>
 
       
     </div>
