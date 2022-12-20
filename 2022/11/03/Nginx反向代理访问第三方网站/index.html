@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="计算机网络," />
+  <meta name="keywords" content="Nginx," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="背景我在写一个tcp程序，放到云服务器运行的时候，发现通过公网ip访问不到。 我第一时间检查了安全组和服务器的防火墙，发现没问题。 然后我用netstat -tnlp 命令，发现该程序绑定了127.0.0.1:xxxx。 后来我百度一轮，发现需要修改代码，让程序绑定到0.0.0.0:xxxx。代码修改完，运行程序，发现可以用公网ip访问了。 疑问 为什么绑定127.0.0.1不能被公网ip访问，而">
+<meta name="description" content="环境物理机：Windows 10 虚拟机：Centos 7（安装Nginx） 编译安装Nginx参考文章（配置nginx.conf的步骤跳过）：点击跳转 配置nginx.config（建议新建一个config文件）配置http块中的示例如下： 1234567891011121314151617server &amp;#123;    listen 443 ssl;    server_name">
 <meta property="og:type" content="article">
-<meta property="og:title" content="启动网络程序后，绑定0.0.0.0和127.0.0.1的区别">
-<meta property="og:url" content="http://example.com/2021/12/14/%E5%90%AF%E5%8A%A8%E7%BD%91%E7%BB%9C%E7%A8%8B%E5%BA%8F%E5%90%8E%EF%BC%8C%E7%BB%91%E5%AE%9A0.0.0.0%E5%92%8C127.0.0.1%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:title" content="Nginx反向代理访问第三方网站（HTTPS）">
+<meta property="og:url" content="http://example.com/2022/11/03/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E7%AC%AC%E4%B8%89%E6%96%B9%E7%BD%91%E7%AB%99/index.html">
 <meta property="og:site_name" content="写BUG小能手">
-<meta property="og:description" content="背景我在写一个tcp程序，放到云服务器运行的时候，发现通过公网ip访问不到。 我第一时间检查了安全组和服务器的防火墙，发现没问题。 然后我用netstat -tnlp 命令，发现该程序绑定了127.0.0.1:xxxx。 后来我百度一轮，发现需要修改代码，让程序绑定到0.0.0.0:xxxx。代码修改完，运行程序，发现可以用公网ip访问了。 疑问 为什么绑定127.0.0.1不能被公网ip访问，而">
+<meta property="og:description" content="环境物理机：Windows 10 虚拟机：Centos 7（安装Nginx） 编译安装Nginx参考文章（配置nginx.conf的步骤跳过）：点击跳转 配置nginx.config（建议新建一个config文件）配置http块中的示例如下： 1234567891011121314151617server &amp;#123;    listen 443 ssl;    server_name">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-12-14T09:18:27.000Z">
-<meta property="article:modified_time" content="2021-12-15T01:50:48.544Z">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202211/%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202211/%E8%AE%BF%E9%97%AE%E9%A1%B5%E9%9D%A2.png">
+<meta property="article:published_time" content="2022-11-03T03:15:33.000Z">
+<meta property="article:modified_time" content="2022-11-03T04:03:19.557Z">
 <meta property="article:author" content="xuetaofeng">
-<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202211/%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2021/12/14/启动网络程序后，绑定0.0.0.0和127.0.0.1的区别/"/>
+  <link rel="canonical" href="http://example.com/2022/11/03/Nginx反向代理访问第三方网站/"/>
 
 
 
 
 
-  <title>启动网络程序后，绑定0.0.0.0和127.0.0.1的区别 | 写BUG小能手</title>
+  <title>Nginx反向代理访问第三方网站（HTTPS） | 写BUG小能手</title>
   
 
 
@@ -243,7 +246,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/14/%E5%90%AF%E5%8A%A8%E7%BD%91%E7%BB%9C%E7%A8%8B%E5%BA%8F%E5%90%8E%EF%BC%8C%E7%BB%91%E5%AE%9A0.0.0.0%E5%92%8C127.0.0.1%E7%9A%84%E5%8C%BA%E5%88%AB/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/03/Nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%AE%BF%E9%97%AE%E7%AC%AC%E4%B8%89%E6%96%B9%E7%BD%91%E7%AB%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -260,7 +263,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">启动网络程序后，绑定0.0.0.0和127.0.0.1的区别</h1>
+          <h1 class="post-title" itemprop="name headline">Nginx反向代理访问第三方网站（HTTPS）</h1>
         
 
         <div class="post-meta">
@@ -272,8 +275,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-12-14T17:18:27+08:00">
-                2021-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-11-03T11:15:33+08:00">
+                2022-11-03
               </time>
             
 
@@ -310,20 +313,28 @@
       
 
       
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我在写一个tcp程序，放到云服务器运行的时候，发现通过公网ip访问不到。</p>
-<p>我第一时间检查了安全组和服务器的防火墙，发现没问题。</p>
-<p>然后我用netstat -tnlp 命令，发现该程序绑定了127.0.0.1:xxxx。</p>
-<p>后来我百度一轮，发现需要修改代码，让程序绑定到0.0.0.0:xxxx。代码修改完，运行程序，发现可以用公网ip访问了。</p>
-<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><ol>
-<li><p>为什么绑定127.0.0.1不能被公网ip访问，而0.0.0.0可以？</p>
-</li>
-<li><p>这两个地址有什么区别？</p>
-</li>
-</ol>
-<h3 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h3><p>我带着疑问，又百度了一番，答案总结如下：</p>
-<p>127.0.0.1 表示回环地址，如果服务器上的程序绑定了该ip，那就只能通过该ip去访问。</p>
-<p>0.0.0.0 表示的是本机上所有ip地址。比如我的云服务器，有内网ip，公网ip和回环ip。所以，服务器上的程序，绑定0.0.0.0之后，可以通过以上3个ip访问。</p>
-<p>所以，云服务器的tcp程序绑定了0.0.0.0之后，可以通过公网ip访问，而绑定127.0.0.1不能。</p>
+        <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>物理机：Windows 10</p>
+<p>虚拟机：Centos 7（安装Nginx）</p>
+<h3 id="编译安装Nginx"><a href="#编译安装Nginx" class="headerlink" title="编译安装Nginx"></a>编译安装Nginx</h3><p>参考文章（配置nginx.conf的步骤跳过）：<a target="_blank" rel="noopener" href="https://blog.csdn.net/rookie23rook/article/details/118112082">点击跳转</a></p>
+<h3 id="配置nginx-config（建议新建一个config文件）"><a href="#配置nginx-config（建议新建一个config文件）" class="headerlink" title="配置nginx.config（建议新建一个config文件）"></a>配置nginx.config（建议新建一个config文件）</h3><p>配置http块中的示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    server_name         bd.com;</span><br><span class="line">    ssl_certificate     &#x2F;keys&#x2F;test.crt;</span><br><span class="line">    ssl_certificate_key &#x2F;keys&#x2F;test.key;</span><br><span class="line">    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">    ssl_ciphers         HIGH:!aNULL:!MD5;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">            resolver 114.114.114.114; # dns server</span><br><span class="line">            proxy_pass https:&#x2F;&#x2F;www.baidu.com&#x2F;;</span><br><span class="line">            proxy_set_header Host www.baidu.com;</span><br><span class="line">            proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">            proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>server_name：在hosts中配置<code>bd.com</code>和Nginx的IP绑定后，使用<code>bd.com</code>作为域名访问Nginx，请求则会进入server_name为<code>bd.com</code>的server块中进行处理</p>
+<p>ssl_certificate：证书位置（下个步骤讲如何生成）</p>
+<p>ssl_certificate_key：证书key位置（下个步骤讲如何生成）</p>
+<p>resolver：DNS服务器地址</p>
+<p>proxy_set_header Host：设置Host请求头，想知道某个网站的Host，可以在浏览器打开F12页面查看。有些网站可能使用安全策略，判断Host是否是自己的域名，最终确定是否需要拦截请求。</p>
+<h3 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h3><p>想要Nginx转发HTTPS请求，需要使用HTTPS先访问Nginx，而Nginx能被HTTPS访问到的前提是需要证书。</p>
+<p>生成证书的方式参考该文章（生成.crt和.key文件）：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/660820">点击跳转</a></p>
+<h3 id="配置hosts"><a href="#配置hosts" class="headerlink" title="配置hosts"></a>配置hosts</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.15.130 bd.com</span><br></pre></td></tr></table></figure>
+<p>hosts是在Windows上，该IP是本人虚拟机的IP，所以这需要自己设置为Nginx所在的IP。</p>
+<h3 id="启动Nginx（Centos-7）"><a href="#启动Nginx（Centos-7）" class="headerlink" title="启动Nginx（Centos 7）"></a>启动Nginx（Centos 7）</h3><p>使用cd命令切换到Nginx根目录，然后使用如下命令启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 默认使用nginx.conf</span><br><span class="line">sbin&#x2F;nginx</span><br><span class="line"></span><br><span class="line"># 使用自定义配置文件</span><br><span class="line">sbin&#x2F;nginx -c 配置文件位置</span><br></pre></td></tr></table></figure>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>在Windows的浏览器上输入：<a target="_blank" rel="noopener" href="https://bd.com/">https://bd.com</a></p>
+<p>第一次访问会提示</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202211/%E4%B8%8D%E6%98%AF%E7%A7%81%E5%AF%86%E8%BF%9E%E6%8E%A5.png"></p>
+<p>点击高级-&gt;继续前往即可访问页面</p>
+<p><img src="https://xtf-blog-pic.oss-cn-beijing.aliyuncs.com/xtf-blog-pic/202211/%E8%AE%BF%E9%97%AE%E9%A1%B5%E9%9D%A2.png"></p>
+<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><p>如果提示网站无响应，则可能是Nginx所在机器的防火墙没有开启443端口，直接开启即可。</p>
 
       
     </div>
@@ -341,7 +352,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
           
         </div>
       
@@ -354,8 +365,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/11/19/Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6/" rel="next" title="Java类加载双亲委派机制">
-                <i class="fa fa-chevron-left"></i> Java类加载双亲委派机制
+              <a href="/2022/03/09/kafka%E6%B6%88%E6%81%AF%E6%B6%88%E8%B4%B9/" rel="next" title="Kafka消息消费">
+                <i class="fa fa-chevron-left"></i> Kafka消息消费
               </a>
             
           </div>
@@ -364,8 +375,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2022/03/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/" rel="prev" title="微服务限流算法">
-                微服务限流算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2022/12/07/%E4%BD%BF%E7%94%A8DBeavar%E8%BF%81%E7%A7%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="prev" title="使用DBeavar迁移MySQL数据库的过程记录">
+                使用DBeavar迁移MySQL数据库的过程记录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -493,7 +504,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">正题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85Nginx"><span class="nav-number">2.</span> <span class="nav-text">编译安装Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEnginx-config%EF%BC%88%E5%BB%BA%E8%AE%AE%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAconfig%E6%96%87%E4%BB%B6%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">配置nginx.config（建议新建一个config文件）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AF%81%E4%B9%A6"><span class="nav-number">4.</span> <span class="nav-text">生成证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEhosts"><span class="nav-number">5.</span> <span class="nav-text">配置hosts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8Nginx%EF%BC%88Centos-7%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">启动Nginx（Centos 7）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE"><span class="nav-number">7.</span> <span class="nav-text">访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">8.</span> <span class="nav-text">防火墙</span></a></li></ol></div>
             
 
           </div>
